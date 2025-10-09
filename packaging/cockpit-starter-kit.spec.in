@@ -26,6 +26,8 @@ BuildRequires: libappstream-glib-devel
 %endif
 
 Requires: cockpit-bridge
+Requires: snapper
+Recommends: sndiff
 
 %{NPM_PROVIDES}
 
