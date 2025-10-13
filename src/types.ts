@@ -1,4 +1,4 @@
-type Snapshot = {
+export type Snapshot = {
   subvolume: string,
   number: number,
   default: boolean,
@@ -9,22 +9,22 @@ type Snapshot = {
   user: string,
   cleanup: "number" | "timeline" | "empty-pre-post",
   description: string,
-  userdata: any,
+  userdata: Map<string, boolean | string | number>,
 };
 
-type Config = {
+export type Config = {
   config: string,
   subvolume: string,
 };
 
-type SndiffPackage = {
+export type SndiffPackage = {
   name: string,
   version_from: string,
   version_to: string,
   changelog_diff: string,
 };
 
-type SndiffFile = {
+export type SndiffFile = {
   path: string,
   root_path_from: string,
   root_path_to: string,
@@ -35,20 +35,20 @@ type SndiffFile = {
   file_diff: string,
 };
 
-type SnDiffModifiedPackages = {
+export type SnDiffModifiedPackages = {
   updated: SndiffPackage[],
   downgraded: SndiffPackage[],
   added: SndiffPackage[],
   removed: SndiffPackage[],
 };
 
-type SndiffModifiedFiles = {
+export type SndiffModifiedFiles = {
   modified: SndiffFile[],
   added: SndiffFile[],
   removed: SndiffFile[],
 };
 
-type SndiffDiff = {
+export type SndiffDiff = {
   packages: SnDiffModifiedPackages,
   files: SndiffModifiedFiles,
 };

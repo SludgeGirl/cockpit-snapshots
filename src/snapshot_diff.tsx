@@ -3,13 +3,12 @@ import React, { useState, useEffect } from "react";
 import { EmptyStatePanel } from 'cockpit-components-empty-state';
 import { useDialogs } from 'dialogs.jsx';
 import { Modal, ModalBody, ModalHeader } from "@patternfly/react-core";
+import { SndiffDiff, SndiffModifiedFiles, SnDiffModifiedPackages } from "./types";
 
 const _ = cockpit.gettext;
 
 const DiffDialog = ({ file, diff }: { file: string, diff: string }) => {
     const Dialogs = useDialogs();
-
-    console.log(file, diff);
 
     return (
         <Modal
@@ -19,7 +18,7 @@ const DiffDialog = ({ file, diff }: { file: string, diff: string }) => {
                 <p>{file}</p>
             </ModalHeader>
             <ModalBody>
-                <pre style={{maxWidth: "800px"}}>{diff}</pre>
+                <pre style={{ maxWidth: "800px" }}>{diff}</pre>
             </ModalBody>
         </Modal>
     );
@@ -34,33 +33,36 @@ export const SnapshotDiff = ({ pre_snapshot, post_snapshot }: { pre_snapshot: nu
         cockpit.spawn(
             ["sndiff", "--json", pre_snapshot.toString(), post_snapshot.toString()], { err: "message", superuser: "require" }
         )
-            .then((output: string, error: string) => {
-                const jsonout: SndiffDiff = JSON.parse(output);
-                setModifiedPackages(jsonout.packages);
-                setModifiedFiles(jsonout.files);
-                console.log(jsonout.files)
-            });
-    }, []);
+                        .then((output: string, error: string) => {
+                            console.log(error);
+                            const jsonout: SndiffDiff = JSON.parse(output);
+                            setModifiedPackages(jsonout.packages);
+                            setModifiedFiles(jsonout.files);
+                            console.log(jsonout.files);
+                        });
+    }, [post_snapshot, pre_snapshot]);
 
     if (modifiedPackages === null || modifiedFiles === null)
         return <EmptyStatePanel loading />;
 
-    return <>
-        <h3>Packages</h3>
-        <p>Updated: {modifiedPackages.updated.reduce((combined, item) => combined += item.name + " ", "")}</p>
-        <p>Downgraded: {modifiedPackages.downgraded.reduce((combined, item) => combined += item.name + " ", "")}</p>
-        <p>Added: {modifiedPackages.added.reduce((combined, item) => combined += item.name + " ", "")}</p>
-        <p>Removed: {modifiedPackages.removed.reduce((combined, item) => combined += item.name + " ", "")}</p>
+    return (
+        <>
+            <h3>{_("Packages")}</h3>
+            <p>{_("Updated")}: {modifiedPackages.updated.reduce((combined, item) => { combined += item.name + " "; return combined }, "")}</p>
+            <p>{_("Downgraded")}: {modifiedPackages.downgraded.reduce((combined, item) => { combined += item.name + " "; return combined }, "")}</p>
+            <p>{_("Added")}: {modifiedPackages.added.reduce((combined, item) => { combined += item.name + " "; return combined }, "")}</p>
+            <p>{_("Removed")}: {modifiedPackages.removed.reduce((combined, item) => { combined += item.name + " "; return combined }, "")}</p>
 
-        <h3>Files</h3>
-        <p>Modified: {modifiedFiles.modified.map(item => {
-            if (!item.file_diff) {
-                return item.path + " ";
-            }
-            return <><a key={item.path} onClick={() => Dialogs.show(<DiffDialog file={item.path} diff={item.file_diff} />)}>{item.path}</a> </>;
-        })}</p>
-        <p>Added: {modifiedFiles.added.reduce((combined, item) => combined += item.path + " ", "")}</p>
-        <p>Removed: {modifiedFiles.removed.reduce((combined, item) => combined += item.path + " ", "")}</p>
-    </>;
+            <h3>{_("Files")}</h3>
+            <p>{_("Modified")}: {modifiedFiles.modified.map(item => {
+                if (!item.file_diff) {
+                    return item.path + " ";
+                }
+                return <span key={item.path}><a onClick={() => Dialogs.show(<DiffDialog file={item.path} diff={item.file_diff} />)}>{item.path}</a> </span>;
+            })}
+            </p>
+            <p>{_("Added")}: {modifiedFiles.added.reduce((combined, item) => { combined += item.path + " "; return combined }, "")}</p>
+            <p>{_("Removed")}: {modifiedFiles.removed.reduce((combined, item) => { combined += item.path + " "; return combined }, "")}</p>
+        </>
+    );
 };
-

@@ -28,6 +28,7 @@ import { KebabDropdown } from "cockpit-components-dropdown";
 import { ListingTable, ListingTableRowProps } from "cockpit-components-table.jsx";
 
 import { SnapshotDiff } from './snapshot_diff';
+import { Config, Snapshot } from './types';
 
 const _ = cockpit.gettext;
 
@@ -38,7 +39,7 @@ export const Application = () => {
     const [hasSndiff, setHasSndiff] = useState<boolean>(false);
 
     useEffect(() => {
-        cockpit.spawn(["snapper", "--json", "list-configs"], { err: "message" }).then((output: string, error: string) => {
+        cockpit.spawn(["snapper", "--json", "list-configs"], { err: "message" }).then((output: string) => {
             const jsonout = JSON.parse(output);
             setSnapperConfigs(jsonout.configs.map((config: Config) => {
                 return {
@@ -47,11 +48,12 @@ export const Application = () => {
                 };
             }));
         });
-        cockpit.spawn(["snapper", "--json", "--no-dbus", "list", "--disable-used-space"], { err: "message", superuser: "require" }).then((output, error) => {
+        cockpit.spawn(["snapper", "--json", "--no-dbus", "list", "--disable-used-space"], { err: "message", superuser: "require" }).then((output) => {
             const jsonout = JSON.parse(output);
             setSnapshots(jsonout.root);
         });
-        fsinfo("/usr/bin/sndiff", []).then(() => setHasSndiff(true)).catch(() => setHasSndiff(false));
+        fsinfo("/usr/bin/sndiff", []).then(() => setHasSndiff(true))
+                        .catch(() => setHasSndiff(false));
     }, [setSnapperConfigs, setSnapshots, setHasSndiff]);
 
     useMemo(() => {
@@ -62,16 +64,18 @@ export const Application = () => {
             } else {
                 paired_snapshots[(snapshot["pre-number"] ? snapshot["pre-number"] : snapshot.number)] = [snapshot];
             }
+            return snapshot;
         });
 
-        setSnapshotsPaired(paired_snapshots)
-    }, [snapshots, setSnapshotsPaired])
+        setSnapshotsPaired(paired_snapshots);
+    }, [snapshots, setSnapshotsPaired]);
 
     const rollback = useCallback((snapshot: number) => {
-        console.log("rolling back to", snapshot)
+        console.log("rolling back to", snapshot);
         cockpit.spawn(["snapper", "--json", "rollback", snapshot.toString()], { err: "message", superuser: "require" }).then((output: string, error: string) => {
             console.log(output, error);
-        }).catch(err => console.log("Rollback errored with", err));
+        })
+                        .catch(err => console.log("Rollback errored with", err));
     }, []);
 
     return (
@@ -81,102 +85,111 @@ export const Application = () => {
                     <Card>
                         <CardTitle>Starter Kit</CardTitle>
                         <CardBody>
-                            <ListingTable columns={[
-                                { title: "Config" },
-                                { title: "Subvolume" },
-                            ]} rows={snapperConfigs.map(config => {
-                                return {
-                                    columns: [
-                                        {
-                                            title: config.config,
-                                        },
-                                        {
-                                            title: config.subvolume,
-                                        },
-                                    ],
-                                    props: { key: config.config }
-                                };
-                            })} />
-
-                            <ListingTable columns={[
-                                { title: "ID" },
-                                { title: "Type" },
-                                { title: "Date" },
-                                { title: "Description" },
-                                { title: "User Data" },
-                                { title: "Actions" },
-                            ]} rows={snapshotsPaired.reduce((reduced_snapshots: ListingTableRowProps[], pairs) => {
-                                const actions = <KebabDropdown
-                                    toggleButtonId="snapshot-actions"
-                                    dropdownItems={
-                                        pairs.length > 1 ? [
-                                            <DropdownItem onClick={() => rollback(pairs[0].number)}>{_("Rollback to pre")}</DropdownItem>,
-                                            <DropdownItem onClick={() => rollback(pairs[1].number)}>{_("Rollback to post")}</DropdownItem>
-                                        ] : [
-                                            <DropdownItem onClick={() => rollback(pairs[0].number)}>{_("Rollback to snapshot")}</DropdownItem>,
-                                        ]
-                                    } />;
-
-                                if (pairs.length > 1) {
-                                    const pre = pairs[0];
-                                    const post = pairs[1];
-                                    const element: ListingTableRowProps = {
+                            <ListingTable
+                                columns={[
+                                    { title: "Config" },
+                                    { title: "Subvolume" },
+                                ]} rows={snapperConfigs.map(config => {
+                                    return {
                                         columns: [
                                             {
-                                                title: pre.number + " - " + post.number + (post.active && post.default ? " (Active + Default)" : post.active ? " (Active)" : post.default ? " (Default)" : ""),
+                                                title: config.config,
                                             },
                                             {
-                                                title: pre.type + " - " + post.type,
+                                                title: config.subvolume,
                                             },
-                                            {
-                                                title: pre.date,
-                                            },
-                                            {
-                                                title: pre.description,
-                                            },
-                                            {
-                                                title: JSON.stringify(pre.userdata),
-                                            },
-                                            {
-                                                title: actions,
-                                                props: { className: "pf-v6-c-table__action" }
-                                            }
                                         ],
-                                        props: { key: pre.number + "-" + post.number },
+                                        props: { key: config.config }
                                     };
-                                    if (hasSndiff) {
-                                        element.expandedContent = <SnapshotDiff pre_snapshot={pre.number} post_snapshot={post.number} />;
-                                    }
-                                    reduced_snapshots.push(element);
-                                } else {
-                                    const snapshot = pairs[0];
-                                    reduced_snapshots.push({
-                                        columns: [
-                                            {
-                                                title: snapshot.number + (snapshot.active && snapshot.default ? " (Active + Default)" : snapshot.active ? " (Active)" : snapshot.default ? " (Default)" : ""),
-                                            },
-                                            {
-                                                title: snapshot.type,
-                                            },
-                                            {
-                                                title: snapshot.date,
-                                            },
-                                            {
-                                                title: snapshot.description,
-                                            },
-                                            {
-                                                title: JSON.stringify(snapshot.userdata),
-                                            },
-                                            {
-                                                title: actions,
-                                                props: { className: "pf-v6-c-table__action" }
+                                })}
+                            />
+
+                            <ListingTable
+                                columns={[
+                                    { title: "ID" },
+                                    { title: "Type" },
+                                    { title: "Date" },
+                                    { title: "Description" },
+                                    { title: "User Data" },
+                                    { title: "Actions" },
+                                ]} rows={snapshotsPaired.reduce((reduced_snapshots: ListingTableRowProps[], pairs) => {
+                                    const actions = (
+                                        <KebabDropdown
+                                            toggleButtonId="snapshot-actions"
+                                            dropdownItems={
+                                                pairs.length > 1
+                                                    ? [
+                                                        <DropdownItem key={pairs[0].number.toString() + "-rollback-pre"} onClick={() => rollback(pairs[0].number)}>{_("Rollback to pre")}</DropdownItem>,
+                                                        <DropdownItem key={pairs[1].number.toString() + "-rollback-pre"} onClick={() => rollback(pairs[1].number)}>{_("Rollback to post")}</DropdownItem>
+                                                    ]
+                                                    : [
+                                                        <DropdownItem key={pairs[0].number.toString() + "-rollback-single"} onClick={() => rollback(pairs[0].number)}>{_("Rollback to snapshot")}</DropdownItem>,
+                                                    ]
                                             }
-                                        ],
-                                        props: { key: snapshot.number }
-                                    });
-                                }
-                                return reduced_snapshots;
-                            }, [])} />
+                                        />
+                                    );
+
+                                    if (pairs.length > 1) {
+                                        const pre = pairs[0];
+                                        const post = pairs[1];
+                                        const element: ListingTableRowProps = {
+                                            columns: [
+                                                {
+                                                    title: pre.number + " - " + post.number + (post.active && post.default ? " (Active + Default)" : post.active ? " (Active)" : post.default ? " (Default)" : ""),
+                                                },
+                                                {
+                                                    title: pre.type + " - " + post.type,
+                                                },
+                                                {
+                                                    title: pre.date,
+                                                },
+                                                {
+                                                    title: pre.description,
+                                                },
+                                                {
+                                                    title: JSON.stringify(pre.userdata),
+                                                },
+                                                {
+                                                    title: actions,
+                                                    props: { className: "pf-v6-c-table__action" }
+                                                }
+                                            ],
+                                            props: { key: pre.number + "-" + post.number },
+                                        };
+                                        if (hasSndiff) {
+                                            element.expandedContent = <SnapshotDiff pre_snapshot={pre.number} post_snapshot={post.number} />;
+                                        }
+                                        reduced_snapshots.push(element);
+                                    } else {
+                                        const snapshot = pairs[0];
+                                        reduced_snapshots.push({
+                                            columns: [
+                                                {
+                                                    title: snapshot.number + (snapshot.active && snapshot.default ? " (Active + Default)" : snapshot.active ? " (Active)" : snapshot.default ? " (Default)" : ""),
+                                                },
+                                                {
+                                                    title: snapshot.type,
+                                                },
+                                                {
+                                                    title: snapshot.date,
+                                                },
+                                                {
+                                                    title: snapshot.description,
+                                                },
+                                                {
+                                                    title: JSON.stringify(snapshot.userdata),
+                                                },
+                                                {
+                                                    title: actions,
+                                                    props: { className: "pf-v6-c-table__action" }
+                                                }
+                                            ],
+                                            props: { key: snapshot.number }
+                                        });
+                                    }
+                                    return reduced_snapshots;
+                                }, [])}
+                            />
                         </CardBody>
                     </Card>
                 </PageSection>
