@@ -1,11 +1,11 @@
-Name: cockpit-starter-kit
+Name: cockpit-snapshots
 Version: %{VERSION}
 Release: 1%{?dist}
-Summary: Cockpit Starter Kit Example Module
+Summary: Cockpit Snapshots module for interacting with Snapper snapshots
 License: LGPL-2.1-or-later
 
-Source0: https://github.com/cockpit-project/starter-kit/releases/download/%{version}/%{name}-%{version}.tar.xz
-Source1: https://github.com/cockpit-project/starter-kit/releases/download/%{version}/%{name}-node-%{version}.tar.xz
+Source0: https://github.com/openSUSE/cockpit-snapshots/releases/download/%{version}/%{name}-%{version}.tar.xz
+Source1: https://github.com/openSUSE/cockpit-snapshots/releases/download/%{version}/%{name}-node-%{version}.tar.xz
 BuildArch: noarch
 %if ! 0%{?suse_version}
 ExclusiveArch: %{nodejs_arches} noarch
@@ -26,13 +26,12 @@ BuildRequires: libappstream-glib-devel
 %endif
 
 Requires: cockpit-bridge
-Requires: snapper
-Recommends: sndiff
+Recommends: (sndiff if snapper)
 
 %{NPM_PROVIDES}
 
 %description
-Cockpit Starter Kit Example Module
+Cockpit Snapshots module for interacting with Snapper snapshots
 
 %prep
 %autosetup -n %{name} -a 1

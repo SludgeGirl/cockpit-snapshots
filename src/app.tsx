@@ -83,7 +83,7 @@ export const Application = () => {
             <Page sidebar={<PageSidebar isSidebarOpen={false} />}>
                 <PageSection>
                     <Card>
-                        <CardTitle>Starter Kit</CardTitle>
+                        <CardTitle>Snapshots</CardTitle>
                         <CardBody>
                             <ListingTable
                                 columns={[
