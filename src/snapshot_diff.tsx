@@ -33,8 +33,7 @@ export const SnapshotDiff = ({ pre_snapshot, post_snapshot }: { pre_snapshot: nu
         cockpit.spawn(
             ["sndiff", "--json", pre_snapshot.toString(), post_snapshot.toString()], { err: "message", superuser: "require" }
         )
-                        .then((output: string, error: string) => {
-                            console.log(error);
+                        .then((output: string) => {
                             const jsonout: SndiffDiff = JSON.parse(output);
                             setModifiedPackages(jsonout.packages);
                             setModifiedFiles(jsonout.files);

@@ -35,7 +35,7 @@ const _ = cockpit.gettext;
 export const Application = () => {
     const [snapperConfigs, setSnapperConfigs] = useState<Config[]>([]);
     const [snapshots, setSnapshots] = useState<Snapshot[]>([]);
-    const [snapshotsPaired, setSnapshotsPaired] = useState<[Snapshot[]] | []>([]);
+    const [snapshotsPaired, setSnapshotsPaired] = useState<([Snapshot, Snapshot] | [Snapshot])[]>([]);
     const [hasSndiff, setHasSndiff] = useState<boolean>(false);
 
     useEffect(() => {
@@ -57,7 +57,7 @@ export const Application = () => {
     }, [setSnapperConfigs, setSnapshots, setHasSndiff]);
 
     useMemo(() => {
-        const paired_snapshots: [Snapshot[]] = [];
+        const paired_snapshots: ([Snapshot, Snapshot] | [Snapshot])[] = [];
         snapshots.map(snapshot => {
             if (snapshot["pre-number"] && paired_snapshots[snapshot["pre-number"]]) {
                 paired_snapshots[snapshot["pre-number"]].push(snapshot);
@@ -72,8 +72,8 @@ export const Application = () => {
 
     const rollback = useCallback((snapshot: number) => {
         console.log("rolling back to", snapshot);
-        cockpit.spawn(["snapper", "--json", "rollback", snapshot.toString()], { err: "message", superuser: "require" }).then((output: string, error: string) => {
-            console.log(output, error);
+        cockpit.spawn(["snapper", "--json", "rollback", snapshot.toString()], { err: "message", superuser: "require" }).then((output: string) => {
+            console.log(output);
         })
                         .catch(err => console.log("Rollback errored with", err));
     }, []);
@@ -112,15 +112,15 @@ export const Application = () => {
                                     { title: "Description" },
                                     { title: "User Data" },
                                     { title: "Actions" },
-                                ]} rows={snapshotsPaired.reduce((reduced_snapshots: ListingTableRowProps[], pairs) => {
+                                ]} rows={snapshotsPaired.reduce((reduced_snapshots: ListingTableRowProps[], pairs: [Snapshot, Snapshot] | [Snapshot]) => {
                                     const actions = (
                                         <KebabDropdown
                                             toggleButtonId="snapshot-actions"
                                             dropdownItems={
-                                                pairs.length > 1
+                                                pairs[1]
                                                     ? [
                                                         <DropdownItem key={pairs[0].number.toString() + "-rollback-pre"} onClick={() => rollback(pairs[0].number)}>{_("Rollback to pre")}</DropdownItem>,
-                                                        <DropdownItem key={pairs[1].number.toString() + "-rollback-pre"} onClick={() => rollback(pairs[1].number)}>{_("Rollback to post")}</DropdownItem>
+                                                        <DropdownItem key={pairs[1].number.toString() + "-rollback-post"} onClick={() => rollback(pairs[1].number)}>{_("Rollback to post")}</DropdownItem>
                                                     ]
                                                     : [
                                                         <DropdownItem key={pairs[0].number.toString() + "-rollback-single"} onClick={() => rollback(pairs[0].number)}>{_("Rollback to snapshot")}</DropdownItem>,
@@ -129,7 +129,7 @@ export const Application = () => {
                                         />
                                     );
 
-                                    if (pairs.length > 1) {
+                                    if (pairs[1]) {
                                         const pre = pairs[0];
                                         const post = pairs[1];
                                         const element: ListingTableRowProps = {
