@@ -10,6 +10,7 @@
     },
 
     "conditions": [
-        {"path-exists": "/.snapshots"}
+        {"path-exists": "/.snapshots"},
+        {"path-exists": "/usr/bin/snapper"}
     ]
 }
