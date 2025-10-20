@@ -126,7 +126,7 @@ export const Application = () => {
                                             <KebabDropdown
                                                 toggleButtonId="snapshot-actions"
                                                 dropdownItems={
-                                                    pairs[1]
+                                                    pairs.length === 2
                                                         ? [
                                                             <DropdownItem key={pairs[0].number.toString() + "-rollback-pre"} onClick={() => rollback(pairs[0].number)}>{_("Rollback to pre")}</DropdownItem>,
                                                             <DropdownItem key={pairs[1].number.toString() + "-rollback-post"} onClick={() => rollback(pairs[1].number)}>{_("Rollback to post")}</DropdownItem>
