@@ -2,8 +2,9 @@ import cockpit from "cockpit";
 import React, { useState, useEffect } from "react";
 import { EmptyStatePanel } from 'cockpit-components-empty-state';
 import { useDialogs } from 'dialogs.jsx';
-import { Modal, ModalBody, ModalHeader } from "@patternfly/react-core";
-import { SndiffDiff, SndiffModifiedFiles, SnDiffModifiedPackages } from "./types";
+import { Breadcrumb, BreadcrumbItem, Button, Card, CardBody, CardHeader, CardTitle, Modal, ModalBody, ModalHeader, PageBreadcrumb, PageSection } from "@patternfly/react-core";
+import { Snapshot, SndiffDiff, SndiffModifiedFiles, SnDiffModifiedPackages } from "./types";
+import { CompareDialog } from "./compare_dialog";
 
 const _ = cockpit.gettext;
 
@@ -24,16 +25,19 @@ const DiffDialog = ({ file, diff }: { file: string, diff: string }) => {
     );
 };
 
-export const SnapshotDiff = ({ pre_snapshot, post_snapshot }: { pre_snapshot: number, post_snapshot: number }) => {
+const SnapshotDiff = ({ pre_snapshot, post_snapshot }: { pre_snapshot: number, post_snapshot: number }) => {
     const Dialogs = useDialogs();
     const [modifiedPackages, setModifiedPackages] = useState<SnDiffModifiedPackages | null>(null);
     const [modifiedFiles, setModifiedFiles] = useState<SndiffModifiedFiles | null>(null);
 
     useEffect(() => {
+        setModifiedPackages(null);
+        setModifiedFiles(null);
         cockpit.spawn(
             ["sndiff", "--json", pre_snapshot.toString(), post_snapshot.toString()], { err: "message", superuser: "require" }
         )
                         .then((output: string) => {
+                            console.log(output);
                             const jsonout: SndiffDiff = JSON.parse(output);
                             setModifiedPackages(jsonout.packages);
                             setModifiedFiles(jsonout.files);
@@ -46,7 +50,7 @@ export const SnapshotDiff = ({ pre_snapshot, post_snapshot }: { pre_snapshot: nu
 
     return (
         <>
-            <h3>{_("Packages")}</h3>
+            <h3> {_("Packages")}</h3>
             <p>{_("Updated")}: {modifiedPackages.updated.reduce((combined, item) => { combined += item.name + " "; return combined }, "")}</p>
             <p>{_("Downgraded")}: {modifiedPackages.downgraded.reduce((combined, item) => { combined += item.name + " "; return combined }, "")}</p>
             <p>{_("Added")}: {modifiedPackages.added.reduce((combined, item) => { combined += item.name + " "; return combined }, "")}</p>
@@ -65,3 +69,44 @@ export const SnapshotDiff = ({ pre_snapshot, post_snapshot }: { pre_snapshot: nu
         </>
     );
 };
+
+const SnapshotDiffPage = ({ snapshot1, snapshot2, snapshots }: { snapshot1: number, snapshot2: number, snapshots: Snapshot[] }) => {
+    const Dialogs = useDialogs();
+
+    console.log(cockpit.location);
+
+    return (
+        <>
+            <PageBreadcrumb hasBodyWrapper={false} stickyOnBreakpoint={{ default: "top" }}>
+                <Breadcrumb>
+                    <BreadcrumbItem to="#/">{_("Snapshots")}</BreadcrumbItem>
+                    <BreadcrumbItem isActive>
+                        {snapshot1} - {snapshot2}
+                    </BreadcrumbItem>
+                </Breadcrumb>
+            </PageBreadcrumb>
+            <PageSection>
+                <Card>
+                    <CardHeader actions={{
+                        actions: [
+                            <Button key="compare-snapshots" onClick={() => Dialogs.show(<CompareDialog snapshots={snapshots} />)}>{_("Compare Snapshots")}</Button>
+                        ]
+                    }}
+                    >
+                        <CardTitle>{_("Snapshots")}</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                        <SnapshotDiff
+                            pre_snapshot={snapshot1}
+                            post_snapshot={snapshot2}
+                        />
+                    </CardBody>
+                </Card>
+            </PageSection>
+        </>
+    );
+};
+
+export default SnapshotDiff;
+
+export { SnapshotDiff, SnapshotDiffPage };

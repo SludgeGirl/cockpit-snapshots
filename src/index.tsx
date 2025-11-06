@@ -26,7 +26,8 @@ import { Application } from './app.jsx';
 
 import "patternfly/patternfly-6-cockpit.scss";
 import './app.scss';
+import { WithDialogs } from 'dialogs.js';
 
 document.addEventListener("DOMContentLoaded", () => {
-    createRoot(document.getElementById("app")!).render(<Application />);
+    createRoot(document.getElementById("app")!).render(<WithDialogs><Application /></WithDialogs>);
 });
