@@ -72,11 +72,29 @@ const SnapshotDiff = ({ pre_snapshot, post_snapshot }: { pre_snapshot: number, p
         );
     };
 
+    const hasNoResults = (modifiedPackages: SnDiffModifiedPackages | null, modifiedFiles: SndiffModifiedFiles | null) => {
+        let emptyPackages: boolean[] = [];
+        let emptyFiles: boolean[] = [];
+        if (modifiedPackages !== null) {
+            const packageKeys: ["updated", "downgraded", "added", "removed"] = ["updated", "downgraded", "added", "removed"];
+            emptyPackages = packageKeys.map((key) => (modifiedPackages[key] ?? []).length === 0);
+        }
+        if (modifiedFiles !== null) {
+            const fileKeys: ["modified", "added", "removed"] = ["modified", "added", "removed"];
+            emptyFiles = fileKeys.map((key) => (modifiedFiles[key] ?? []).length === 0);
+        }
+
+        console.log(emptyPackages, emptyFiles);
+        return emptyPackages.filter((i) => !i).length === 0 &&
+            emptyFiles.filter((i) => !i).length === 0;
+    };
+
     if (modifiedPackages === null || modifiedFiles === null)
         return <EmptyStatePanel loading />;
 
     return (
         <Accordion asDefinitionList>
+            {hasNoResults(modifiedPackages, modifiedFiles) && <p>{_("No changes found")}</p>}
             {modifiedPackages.updated.length > 0 &&
                 accordionItem("def-updated-packages", _("Updated Packages"), (
                     <p>
