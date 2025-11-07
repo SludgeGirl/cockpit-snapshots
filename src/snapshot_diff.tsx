@@ -39,7 +39,25 @@ const SnapshotDiff = ({ pre_snapshot, post_snapshot }: { pre_snapshot: number, p
         )
                         .then((output: string) => {
                             console.log(output);
-                            const jsonout: SndiffDiff = JSON.parse(output);
+                            let jsonout: SndiffDiff;
+                            try {
+                                jsonout = JSON.parse(output);
+                            } catch (e) {
+                                console.error("sndiff returned invalid json", e);
+                                jsonout = {
+                                    packages: {
+                                        updated: [],
+                                        downgraded: [],
+                                        added: [],
+                                        removed: []
+                                    },
+                                    files: {
+                                        modified: [],
+                                        added: [],
+                                        removed: []
+                                    }
+                                };
+                            }
                             setModifiedPackages(jsonout.packages);
                             setModifiedFiles(jsonout.files);
                             console.log(jsonout.files);
