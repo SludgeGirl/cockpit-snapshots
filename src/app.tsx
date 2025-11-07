@@ -25,6 +25,9 @@ import { DashboardPage } from './dashboard';
 import { SnapshotDiffPage } from './snapshot_diff';
 import { fsinfo } from 'cockpit/fsinfo';
 import { Config, Snapshot } from './types';
+import { superuser } from "superuser";
+
+superuser.reload_page_on_change();
 
 export const Application = () => {
     const [hasSndiff, setHasSndiff] = useState<boolean>(false);
