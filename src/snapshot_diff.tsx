@@ -115,51 +115,51 @@ const SnapshotDiff = ({ pre_snapshot, post_snapshot }: { pre_snapshot: number, p
             {hasNoResults(modifiedPackages, modifiedFiles) && <p>{_("No changes found")}</p>}
             {modifiedPackages.updated.length > 0 &&
                 accordionItem("def-updated-packages", _("Updated Packages"), (
-                    <p>
-                        {modifiedPackages.updated.reduce((combined, item) => { combined += item.name + " "; return combined }, "")}
-                    </p>
+                    <ul className='flow-list'>
+                        {modifiedPackages.updated.map((item, n) => <li key={n}>{item.name}</li>)}
+                    </ul>
                 ))}
             {modifiedPackages.downgraded.length > 0 &&
                 accordionItem("def-downgraded-packages", _("Downgraded Packages"), (
-                    <p>
-                        {modifiedPackages.downgraded.reduce((combined, item) => { combined += item.name + " "; return combined }, "")}
-                    </p>
+                    <ul className='flow-list'>
+                        {modifiedPackages.downgraded.map((item, n) => <li key={n}>{item.name}</li>)}
+                    </ul>
                 ))}
             {modifiedPackages.added.length > 0 &&
                 accordionItem("def-added-packages", _("Added Packages"), (
-                    <p>
-                        {modifiedPackages.added.reduce((combined, item) => { combined += item.name + " "; return combined }, "")}
-                    </p>
+                    <ul className='flow-list'>
+                        {modifiedPackages.added.map((item, n) => <li key={n}>{item.name}</li>)}
+                    </ul>
                 ))}
             {modifiedPackages.removed.length > 0 &&
                 accordionItem("def-removed-packages", _("Removed Packages"), (
-                    <p>
-                        {modifiedPackages.removed.reduce((combined, item) => { combined += item.name + " "; return combined }, "")}
-                    </p>
+                    <ul className='flow-list'>
+                        {modifiedPackages.removed.map((item, n) => <li key={n}>{item.name}</li>)}
+                    </ul>
                 ))}
 
             {modifiedFiles.modified.length > 0 &&
                 accordionItem("def-modified-files", _("Modified Files"), (
-                    <p>
+                    <ul className='flow-list'>
                         {modifiedFiles.modified.map(item => {
                             if (!item.file_diff) {
-                                return item.path + " ";
+                                return <li key={item.path}>{item.path} </li>;
                             }
-                            return <span key={item.path}><a onClick={() => Dialogs.show(<DiffDialog file={item.path} diff={item.file_diff} />)}>{item.path}</a> </span>;
+                            return <li key={item.path}><a onClick={() => Dialogs.show(<DiffDialog file={item.path} diff={item.file_diff} />)}>{item.path}</a> </li>;
                         })}
-                    </p>
+                    </ul>
                 ))}
             {modifiedFiles.added.length > 0 &&
                 accordionItem("def-added-files", _("Added Files"), (
-                    <p>
-                        {modifiedFiles.added.reduce((combined, item) => { combined += item.path + " "; return combined }, "")}
-                    </p>
+                    <ul className='flow-list'>
+                        {modifiedFiles.added.map((item, n) => <li key={n}>{item.path}</li>)}
+                    </ul>
                 ))}
             {modifiedFiles.removed.length > 0 &&
                 accordionItem("def-removed-files", _("Removed Files"), (
-                    <p>
-                        {modifiedFiles.removed.reduce((combined, item) => { combined += item.path + " "; return combined }, "")}
-                    </p>
+                    <ul className='flow-list'>
+                        {modifiedFiles.removed.map((item, n) => <li key={n}>{item.path}</li>)}
+                    </ul>
                 ))}
         </Accordion>
     );

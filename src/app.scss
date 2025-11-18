@@ -1,5 +1,19 @@
 @use "page.scss";
 
-p {
-    font-weight: bold;
+.flow-list {
+  padding: 0;
+  text-align: start;
+  box-sizing: border-box;
+
+  li {
+    text-align: start;
+    box-sizing: border-box;
+    inline-size: 22rem;
+    padding-block: 0;
+    padding-inline: 0 1ex;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
