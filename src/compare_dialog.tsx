@@ -47,6 +47,7 @@ export const CompareDialog = ({ snapshots }: { snapshots: Snapshot[] }) => {
                                     onSelect={(value) => setFirstSelect(Number(value))}
                                     options={snapshots.map((snapshot) => ({ value: snapshot.number, content: snapshot.number }))}
                                     selected={firstSelect ?? undefined}
+                                    isScrollable
                                 />
                             </FlexItem>
                             <FlexItem>
@@ -59,6 +60,7 @@ export const CompareDialog = ({ snapshots }: { snapshots: Snapshot[] }) => {
                                     onSelect={(value) => setSecondSelect(Number(value))}
                                     options={snapshots.map((snapshot) => ({ value: snapshot.number, content: snapshot.number }))}
                                     selected={secondSelect ?? undefined}
+                                    isScrollable
                                 />
                             </FlexItem>
                         </Flex>
