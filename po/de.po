@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-15 09:51+0100\n"
+"POT-Creation-Date: 2026-01-12 12:48+0000\n"
 "PO-Revision-Date: 2026-01-11 23:04+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German <https://l10n.opensuse.org/projects/cockpit/cockpit-"
@@ -26,77 +26,56 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.15.1\n"
 
-#: org.opensuse.cockpit_snapshots.metainfo.xml:6
-#: org.opensuse.cockpit_snapshots.metainfo.xml:8
 msgid "A cockpit module for managing snapper snapshots"
 msgstr "Ein Cockpit-Modul zum Verwalten von snapper-Schnappschüssen"
 
-#: src/snapshot_diff.tsx:153
 msgid "Added Files"
 msgstr "Hinzugefügte Dateien"
 
-#: src/snapshot_diff.tsx:129
 msgid "Added Packages"
 msgstr "Hinzugefügte Pakete"
 
-#: src/index.html:20
 msgid "Cockpit Snapshots"
 msgstr "Cockpit-Schnappschüsse"
 
-#: src/compare_dialog.tsx:38 src/compare_dialog.tsx:72 src/dashboard.tsx:56
-#: src/snapshot_diff.tsx:185
 msgid "Compare Snapshots"
 msgstr "Schnappschüsse vergleichen"
 
-#: src/snapshot_diff.tsx:123
 msgid "Downgraded Packages"
 msgstr "Herabgestufte Pakete"
 
-#: src/snapshot_diff.tsx:142
 msgid "Modified Files"
 msgstr "Geänderte Dateien"
 
-#: src/snapshot_diff.tsx:115
 msgid "No changes found"
 msgstr "Keine Änderungen gefunden"
 
-#: src/compare_dialog.tsx:46 src/compare_dialog.tsx:59
 msgid "Please select a value"
 msgstr "Bitte wählen Sie einen Wert aus"
 
-#: src/snapshot_diff.tsx:159
 msgid "Removed Files"
 msgstr "Entfernte Dateien"
 
-#: src/snapshot_diff.tsx:135
 msgid "Removed Packages"
 msgstr "Entfernte Pakete"
 
-#: src/dashboard.tsx:80
 msgid "Rollback to post"
 msgstr "Zurückrollen zum Stand danach"
 
-#: src/dashboard.tsx:79
 msgid "Rollback to pre"
 msgstr "Zurückrollen zum Stand davor"
 
-#: src/dashboard.tsx:83
 msgid "Rollback to snapshot"
 msgstr "Zurückrollen zum Schnappschuss"
 
-#: src/dashboard.tsx:30
 msgid "Snapshot Configs"
 msgstr "Schnappschuss-Konfigurationen"
 
-#: src/dashboard.tsx:61 src/snapshot_diff.tsx:175 src/snapshot_diff.tsx:189
-#: src/manifest.json:0 org.opensuse.cockpit_snapshots.metainfo.xml:5
 msgid "Snapshots"
 msgstr "Schnappschüsse"
 
-#: src/snapshot_diff.tsx:117
 msgid "Updated Packages"
 msgstr "Aktualisierte Pakete"
 
-#: src/compare_dialog.tsx:54
 msgid "With"
 msgstr "Mit"

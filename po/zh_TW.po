@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-15 09:51+0100\n"
+"POT-Creation-Date: 2026-01-12 12:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -25,77 +25,56 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Cockpit manifest2po\n"
 
-#: org.opensuse.cockpit_snapshots.metainfo.xml:6
-#: org.opensuse.cockpit_snapshots.metainfo.xml:8
 msgid "A cockpit module for managing snapper snapshots"
 msgstr ""
 
-#: src/snapshot_diff.tsx:153
 msgid "Added Files"
 msgstr ""
 
-#: src/snapshot_diff.tsx:129
 msgid "Added Packages"
 msgstr ""
 
-#: src/index.html:20
 msgid "Cockpit Snapshots"
 msgstr ""
 
-#: src/compare_dialog.tsx:38 src/compare_dialog.tsx:72 src/dashboard.tsx:56
-#: src/snapshot_diff.tsx:185
 msgid "Compare Snapshots"
 msgstr ""
 
-#: src/snapshot_diff.tsx:123
 msgid "Downgraded Packages"
 msgstr ""
 
-#: src/snapshot_diff.tsx:142
 msgid "Modified Files"
 msgstr ""
 
-#: src/snapshot_diff.tsx:115
 msgid "No changes found"
 msgstr ""
 
-#: src/compare_dialog.tsx:46 src/compare_dialog.tsx:59
 msgid "Please select a value"
 msgstr ""
 
-#: src/snapshot_diff.tsx:159
 msgid "Removed Files"
 msgstr ""
 
-#: src/snapshot_diff.tsx:135
 msgid "Removed Packages"
 msgstr ""
 
-#: src/dashboard.tsx:80
 msgid "Rollback to post"
 msgstr ""
 
-#: src/dashboard.tsx:79
 msgid "Rollback to pre"
 msgstr ""
 
-#: src/dashboard.tsx:83
 msgid "Rollback to snapshot"
 msgstr ""
 
-#: src/dashboard.tsx:30
 msgid "Snapshot Configs"
 msgstr ""
 
-#: src/dashboard.tsx:61 src/snapshot_diff.tsx:175 src/snapshot_diff.tsx:189
-#: src/manifest.json:0 org.opensuse.cockpit_snapshots.metainfo.xml:5
 msgid "Snapshots"
 msgstr ""
 
-#: src/snapshot_diff.tsx:117
 msgid "Updated Packages"
 msgstr ""
 
-#: src/compare_dialog.tsx:54
 msgid "With"
 msgstr ""
