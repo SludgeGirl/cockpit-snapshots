@@ -15,87 +15,88 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12 12:49+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-01-15 05:04+0000\n"
+"Last-Translator: Luna  Jernberg <bittin@opensuse.org>\n"
+"Language-Team: Swedish <https://l10n.opensuse.org/projects/cockpit/cockpit-"
+"snapshots/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Cockpit manifest2po\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #: org.opensuse.cockpit_snapshots.metainfo.xml:6
 #: org.opensuse.cockpit_snapshots.metainfo.xml:8
 msgid "A cockpit module for managing snapper snapshots"
-msgstr ""
+msgstr "En cockpit modul för att hantera snapper ögonblicksavbilder"
 
 #: src/snapshot_diff.tsx:170
 msgid "Added Files"
-msgstr ""
+msgstr "Tillagda filer"
 
 #: src/snapshot_diff.tsx:146
 msgid "Added Packages"
-msgstr ""
+msgstr "Tillagda paket"
 
 #: src/index.html:20
 msgid "Cockpit Snapshots"
-msgstr ""
+msgstr "Cockpit ögonblicksavbilder"
 
 #: src/compare_dialog.tsx:38 src/compare_dialog.tsx:72 src/dashboard.tsx:57
 #: src/snapshot_diff.tsx:202
 msgid "Compare Snapshots"
-msgstr ""
+msgstr "Jämför ögonblicksavbilder"
 
 #: src/snapshot_diff.tsx:140
 msgid "Downgraded Packages"
-msgstr ""
+msgstr "Nedgraderade paket"
 
 #: src/snapshot_diff.tsx:159
 msgid "Modified Files"
-msgstr ""
+msgstr "Modiferade filer"
 
 #: src/snapshot_diff.tsx:132
 msgid "No changes found"
-msgstr ""
+msgstr "Inga ändringar hittades"
 
 #: src/compare_dialog.tsx:46 src/compare_dialog.tsx:59
 msgid "Please select a value"
-msgstr ""
+msgstr "Vänligen välj ett värde"
 
 #: src/snapshot_diff.tsx:176
 msgid "Removed Files"
-msgstr ""
+msgstr "Borttagna filer"
 
 #: src/snapshot_diff.tsx:152
 msgid "Removed Packages"
-msgstr ""
+msgstr "Borttagna paket"
 
 #: src/dashboard.tsx:83
 msgid "Rollback to post"
-msgstr ""
+msgstr "Rulla tillbaka till före"
 
 #: src/dashboard.tsx:82
 msgid "Rollback to pre"
-msgstr ""
+msgstr "Rulla tillbaka till efter"
 
 #: src/dashboard.tsx:86
 msgid "Rollback to snapshot"
-msgstr ""
+msgstr "Rulla tillbaka till ögonblicksavbild"
 
 #: src/dashboard.tsx:31
 msgid "Snapshot Configs"
-msgstr ""
+msgstr "Konfiguration av ögonblicksbilder"
 
 #: src/dashboard.tsx:62 src/snapshot_diff.tsx:192 src/snapshot_diff.tsx:206
 #: src/manifest.json:0 org.opensuse.cockpit_snapshots.metainfo.xml:5
 msgid "Snapshots"
-msgstr ""
+msgstr "Ögonblicksavbilder"
 
 #: src/snapshot_diff.tsx:134
 msgid "Updated Packages"
-msgstr ""
+msgstr "Uppdaterade paket"
 
 #: src/compare_dialog.tsx:54
 msgid "With"
-msgstr ""
+msgstr "Med"
