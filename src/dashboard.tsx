@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
-import { Button, DropdownItem, PageSection, Stack } from '@patternfly/react-core';
+import { Button, DropdownItem, PageSection, Stack, Tooltip } from '@patternfly/react-core';
 import { Card, CardBody, CardHeader, CardTitle } from "@patternfly/react-core/dist/esm/components/Card/index.js";
 import { KebabDropdown } from "cockpit-components-dropdown";
 import { ListingTable, ListingTableRowProps, RowRecord } from "cockpit-components-table.jsx";
@@ -12,7 +12,7 @@ import { useDialogs } from 'dialogs';
 import { CompareDialog } from './compare_dialog';
 const _ = cockpit.gettext;
 
-export const DashboardPage = ({ hasSndiff, snapperConfigs, snapshots, snapshotsPaired }: {hasSndiff: boolean, snapperConfigs: Config[], snapshots: Snapshot[], snapshotsPaired: ([Snapshot, Snapshot] | [Snapshot])[]}) => {
+export const DashboardPage = ({ hasSndiff, snapperConfigs, snapshots, snapshotsPaired }: { hasSndiff: boolean, snapperConfigs: Config[], snapshots: Snapshot[], snapshotsPaired: ([Snapshot, Snapshot] | [Snapshot])[] }) => {
     const Dialogs = useDialogs();
     const [expandedRows, setExpandedRows] = useState<RowRecord>({});
 
@@ -23,6 +23,36 @@ export const DashboardPage = ({ hasSndiff, snapperConfigs, snapshots, snapshotsP
         })
                         .catch(err => console.log("Rollback errored with", err));
     }, []);
+
+    const diffButton = useMemo(() => {
+        const button = (
+            <Button
+                key="compare-snapshots"
+                isDisabled={!hasSndiff}
+                onClick={() => Dialogs.show(<CompareDialog snapshots={snapshots} />)}
+            >
+                {_("Compare Snapshots")}
+            </Button>
+        );
+
+        if (hasSndiff) {
+            return button;
+        }
+
+        return (
+            <Tooltip
+                content={
+                    <div>
+                        {_("sndiff is not installed")}
+                    </div>
+                }
+            >
+                <div>
+                    {button}
+                </div>
+            </Tooltip>
+        );
+    }, [hasSndiff, snapshots]);
 
     return (
         <PageSection>
@@ -51,13 +81,13 @@ export const DashboardPage = ({ hasSndiff, snapperConfigs, snapshots, snapshotsP
                     </CardBody>
                 </Card>
                 <Card>
-                    <CardHeader actions={hasSndiff
-                        ? {
+                    <CardHeader actions={
+                        {
                             actions: [
-                                <Button key="compare-snapshots" onClick={() => Dialogs.show(<CompareDialog snapshots={snapshots} />)}>{_("Compare Snapshots")}</Button>
+                                diffButton
                             ]
                         }
-                        : { actions: [] }}
+                    }
                     >
                         <CardTitle>{_("Snapshots")}</CardTitle>
                     </CardHeader>
