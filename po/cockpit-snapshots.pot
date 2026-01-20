@@ -22,7 +22,7 @@ msgstr ""
 "#-#-#-#-#  cockpit-snapshots.js.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-12 12:48+0000\n"
+"POT-Creation-Date: 2026-01-22 14:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgstr ""
 "#-#-#-#-#  cockpit-snapshots.metainfo.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-12 12:49+0000\n"
+"POT-Creation-Date: 2026-01-13 09:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,7 +65,7 @@ msgstr ""
 msgid "Cockpit Snapshots"
 msgstr ""
 
-#: src/compare_dialog.tsx:38 src/compare_dialog.tsx:72 src/dashboard.tsx:57
+#: src/compare_dialog.tsx:38 src/compare_dialog.tsx:72 src/dashboard.tsx:34
 #: src/snapshot_diff.tsx:202
 msgid "Compare Snapshots"
 msgstr ""
@@ -94,23 +94,23 @@ msgstr ""
 msgid "Removed Packages"
 msgstr ""
 
-#: src/dashboard.tsx:83
+#: src/dashboard.tsx:113
 msgid "Rollback to post"
 msgstr ""
 
-#: src/dashboard.tsx:82
+#: src/dashboard.tsx:112
 msgid "Rollback to pre"
 msgstr ""
 
-#: src/dashboard.tsx:86
+#: src/dashboard.tsx:116
 msgid "Rollback to snapshot"
 msgstr ""
 
-#: src/dashboard.tsx:31
+#: src/dashboard.tsx:61
 msgid "Snapshot Configs"
 msgstr ""
 
-#: src/dashboard.tsx:62 src/snapshot_diff.tsx:192 src/snapshot_diff.tsx:206
+#: src/dashboard.tsx:92 src/snapshot_diff.tsx:192 src/snapshot_diff.tsx:206
 #: src/manifest.json:0 org.opensuse.cockpit_snapshots.metainfo.xml:5
 msgid "Snapshots"
 msgstr ""
@@ -121,4 +121,8 @@ msgstr ""
 
 #: src/compare_dialog.tsx:54
 msgid "With"
+msgstr ""
+
+#: src/dashboard.tsx:46
+msgid "sndiff is not installed"
 msgstr ""
