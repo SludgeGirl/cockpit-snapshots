@@ -36,21 +36,47 @@ export const Application = () => {
     const [snapshotsPaired, setSnapshotsPaired] = useState<([Snapshot, Snapshot] | [Snapshot])[]>([]);
     const [cockpitLocation, setCockpitLocation] = useState<Location>(cockpit.location);
 
-    useEffect(() => {
-        cockpit.spawn(["snapper", "--json", "list-configs"], { err: "message" }).then((output: string) => {
-            const jsonout = JSON.parse(output);
-            setSnapperConfigs(jsonout.configs.map((config: Config) => {
-                return {
-                    config: config.config,
-                    subvolume: config.subvolume,
-                };
-            }));
-        });
+    const updateConfigs = useCallback(() => {
+        cockpit.dbus("org.opensuse.Snapper")
+                        .call("/org/opensuse/Snapper", "org.opensuse.Snapper", "ListConfigs")
+                        .then((response) => {
+                            setSnapperConfigs((response as [[string, string][]])[0]?.map((config: [string, string]): Config => {
+                                return {
+                                    subvolume: config[1],
+                                    config: config[0],
+                                };
+                            }));
+                        });
+    }, [setSnapperConfigs]);
+
+    const updateSnapshots = useCallback(() => {
         cockpit.spawn(["snapper", "--json", "--no-dbus", "list", "--disable-used-space"], { err: "message", superuser: "require" }).then((output) => {
             const jsonout = JSON.parse(output);
             setSnapshots(jsonout.root);
         });
-    }, [setSnapperConfigs, setSnapshots]);
+    }, [snapperConfigs]);
+
+    useEffect(() => {
+        const snapperClient = cockpit.dbus("org.opensuse.Snapper");
+        const snapperProxy = snapperClient.proxy();
+
+        updateConfigs();
+
+        const handleSignal = () => {
+            updateConfigs();
+            updateSnapshots();
+        };
+
+        snapperProxy.addEventListener("signal", handleSignal);
+
+        return () => {
+            snapperProxy.removeEventListener("signal", handleSignal);
+        };
+    }, [updateConfigs]);
+
+    useEffect(() => {
+        updateSnapshots();
+    }, [updateSnapshots, snapperConfigs]);
 
     useMemo(() => {
         const paired_snapshots: ([Snapshot, Snapshot] | [Snapshot])[] = [];
