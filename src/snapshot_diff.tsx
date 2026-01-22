@@ -1,8 +1,8 @@
 import cockpit from "cockpit";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, CSSProperties } from "react";
 import { EmptyStatePanel } from 'cockpit-components-empty-state';
 import { useDialogs } from 'dialogs.jsx';
-import { Accordion, AccordionContent, AccordionItem, AccordionToggle, Breadcrumb, BreadcrumbItem, Button, Card, CardBody, CardHeader, CardTitle, Modal, ModalBody, ModalHeader, PageBreadcrumb, PageSection } from "@patternfly/react-core";
+import { Accordion, AccordionContent, AccordionItem, AccordionToggle, Breadcrumb, BreadcrumbItem, Button, Card, CardBody, CardHeader, CardTitle, ClipboardCopyButton, CodeBlock, CodeBlockAction, CodeBlockCode, Modal, ModalBody, ModalHeader, PageBreadcrumb, PageSection } from "@patternfly/react-core";
 import { Snapshot, SndiffDiff, SndiffModifiedFiles, SnDiffModifiedPackages } from "./types";
 import { CompareDialog } from "./compare_dialog";
 
@@ -10,6 +10,36 @@ const _ = cockpit.gettext;
 
 const DiffDialog = ({ file, diff }: { file: string, diff: string }) => {
     const Dialogs = useDialogs();
+    const [copied, setCopied] = useState(false);
+
+    const onClick = (event: React.MouseEvent<Element, MouseEvent>, text: string) => {
+        navigator.clipboard.writeText(text.toString());
+        setCopied(true);
+    };
+
+    const code = diff.split("\n").map((line, index) => {
+        const first_char = line.charAt(0);
+        const style: CSSProperties = {
+            display: "block",
+        };
+
+        if (["-", "+"].includes(first_char)) {
+            style.color = "#fff";
+        }
+
+        const lineParts = line.split(" ");
+        if (lineParts.length > 0 && lineParts[0] === "@@" && lineParts[lineParts.length - 1] === "@@") {
+            style.color = "#698996";
+        }
+
+        if (first_char === "-") {
+            style.backgroundColor = "#cf222e";
+        } else if (first_char === "+") {
+            style.backgroundColor = "#1a7f37";
+        }
+
+        return (<span key={"diff-line-" + index} style={style}>{line}</span>);
+    });
 
     return (
         <Modal
@@ -17,26 +47,24 @@ const DiffDialog = ({ file, diff }: { file: string, diff: string }) => {
         >
             <ModalHeader title={file} />
             <ModalBody>
-                <pre style={{ maxWidth: "800px" }}>
-                    {diff.split("\n").map((line, index) => {
-                        const first_char = line.charAt(0);
-                        if (first_char === "-") {
-                            return (
-                                <p key={"diff-line-" + index} style={{ backgroundColor: "#cf222e" }}>
-                                    {line}
-                                </p>
-                            );
-                        } else if (first_char === "+") {
-                            return (
-                                <p key={"diff-line-" + index} style={{ backgroundColor: "#1a7f37" }}>
-                                    {line}
-                                </p>
-                            );
-                        }
-
-                        return (<p key={"diff-line-" + index}>{line}</p>);
-                    })}
-                </pre>
+                <CodeBlock actions={
+                    <CodeBlockAction>
+                        <ClipboardCopyButton
+                            id="copy-button"
+                            aria-label="Copy diff to clipboard"
+                            onClick={(e) => onClick(e, diff)}
+                            exitDelay={copied ? 1500 : 600}
+                            maxWidth="120px"
+                            variant="plain"
+                            onTooltipHidden={() => setCopied(false)}
+                        >
+                            {copied ? 'Successfully copied to clipboard!' : 'Copy to clipboard'}
+                        </ClipboardCopyButton>
+                    </CodeBlockAction>
+                }
+                >
+                    <CodeBlockCode id="code-content">{code}</CodeBlockCode>
+                </CodeBlock>
             </ModalBody>
         </Modal>
     );
