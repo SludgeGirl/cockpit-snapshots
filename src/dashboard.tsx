@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { Button, DropdownItem, PageSection, Stack, Tooltip } from '@patternfly/react-core';
+import { Button, DropdownItem, Modal, ModalBody, ModalFooter, ModalHeader, PageSection, Stack, Tooltip } from '@patternfly/react-core';
 import { Card, CardBody, CardHeader, CardTitle } from "@patternfly/react-core/dist/esm/components/Card/index.js";
 import { KebabDropdown } from "cockpit-components-dropdown";
 import { ListingTable, ListingTableRowProps, RowRecord } from "cockpit-components-table.jsx";
@@ -12,16 +12,44 @@ import { useDialogs } from 'dialogs';
 import { CompareDialog } from './compare_dialog';
 const _ = cockpit.gettext;
 
+const RollbackDialog = ({ type, message }: { type: "success" | "error", message?: string }) => {
+    const Dialogs = useDialogs();
+
+    const reboot = () => {
+        cockpit.spawn(["reboot"], { superuser: "require" });
+    };
+
+    return (
+        <Modal
+            variant="medium"
+            position="top"
+            onClose={() => Dialogs.close()}
+            isOpen
+        >
+            <ModalHeader title={type === "success" ? _("Rolled back successfully") : _("There was an error")} />
+            <ModalBody>
+                {type === "success"
+                    ? <p>{_("A reboot is needed to complete the rollback")}</p>
+                    : <p>{message}</p>}
+            </ModalBody>
+            <ModalFooter>{type === "success" ? <Button onClick={reboot} variant="primary">{_("Reboot")}</Button> : ""}</ModalFooter>
+        </Modal>
+    );
+};
+
 export const DashboardPage = ({ hasSndiff, snapperConfigs, snapshots, snapshotsPaired }: { hasSndiff: boolean, snapperConfigs: Config[], snapshots: Snapshot[], snapshotsPaired: ([Snapshot, Snapshot] | [Snapshot])[] }) => {
     const Dialogs = useDialogs();
     const [expandedRows, setExpandedRows] = useState<RowRecord>({});
 
     const rollback = useCallback((snapshot: number) => {
         console.log("rolling back to", snapshot);
-        cockpit.spawn(["snapper", "--json", "rollback", snapshot.toString()], { err: "message", superuser: "require" }).then((output: string) => {
-            console.log(output);
+        cockpit.spawn(["snapper", "--json", "rollback", snapshot.toString()], { err: "message", superuser: "require" }).then(() => {
+            Dialogs.show(<RollbackDialog type="success" />);
         })
-                        .catch(err => console.log("Rollback errored with", err));
+                        .catch(err => {
+                            console.log("Rollback errored with", err);
+                            Dialogs.show(<RollbackDialog type="error" message={err} />);
+                        });
     }, []);
 
     const diffButton = useMemo(() => {

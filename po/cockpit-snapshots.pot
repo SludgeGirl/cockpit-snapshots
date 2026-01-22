@@ -53,6 +53,10 @@ msgstr ""
 msgid "A cockpit module for managing snapper snapshots"
 msgstr ""
 
+#: src/dashboard.tsx:32
+msgid "A reboot is needed to complete the rollback"
+msgstr ""
+
 #: src/snapshot_diff.tsx:198
 msgid "Added Files"
 msgstr ""
@@ -65,7 +69,7 @@ msgstr ""
 msgid "Cockpit Snapshots"
 msgstr ""
 
-#: src/compare_dialog.tsx:38 src/compare_dialog.tsx:72 src/dashboard.tsx:34
+#: src/compare_dialog.tsx:38 src/compare_dialog.tsx:72 src/dashboard.tsx:62
 #: src/snapshot_diff.tsx:230
 msgid "Compare Snapshots"
 msgstr ""
@@ -86,6 +90,10 @@ msgstr ""
 msgid "Please select a value"
 msgstr ""
 
+#: src/dashboard.tsx:35
+msgid "Reboot"
+msgstr ""
+
 #: src/snapshot_diff.tsx:204
 msgid "Removed Files"
 msgstr ""
@@ -94,25 +102,33 @@ msgstr ""
 msgid "Removed Packages"
 msgstr ""
 
-#: src/dashboard.tsx:113
+#: src/dashboard.tsx:141
 msgid "Rollback to post"
 msgstr ""
 
-#: src/dashboard.tsx:112
+#: src/dashboard.tsx:140
 msgid "Rollback to pre"
 msgstr ""
 
-#: src/dashboard.tsx:116
+#: src/dashboard.tsx:144
 msgid "Rollback to snapshot"
 msgstr ""
 
-#: src/dashboard.tsx:61
+#: src/dashboard.tsx:29
+msgid "Rolled back successfully"
+msgstr ""
+
+#: src/dashboard.tsx:89
 msgid "Snapshot Configs"
 msgstr ""
 
-#: src/dashboard.tsx:92 src/snapshot_diff.tsx:220 src/snapshot_diff.tsx:234
+#: src/dashboard.tsx:120 src/snapshot_diff.tsx:220 src/snapshot_diff.tsx:234
 #: src/manifest.json:0 org.opensuse.cockpit_snapshots.metainfo.xml:5
 msgid "Snapshots"
+msgstr ""
+
+#: src/dashboard.tsx:29
+msgid "There was an error"
 msgstr ""
 
 #: src/snapshot_diff.tsx:162
@@ -123,6 +139,6 @@ msgstr ""
 msgid "With"
 msgstr ""
 
-#: src/dashboard.tsx:46
+#: src/dashboard.tsx:74
 msgid "sndiff is not installed"
 msgstr ""
