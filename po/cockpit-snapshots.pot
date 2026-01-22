@@ -22,7 +22,7 @@ msgstr ""
 "#-#-#-#-#  cockpit-snapshots.js.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-22 14:06+0000\n"
+"POT-Creation-Date: 2026-01-22 14:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,11 +53,11 @@ msgstr ""
 msgid "A cockpit module for managing snapper snapshots"
 msgstr ""
 
-#: src/snapshot_diff.tsx:170
+#: src/snapshot_diff.tsx:198
 msgid "Added Files"
 msgstr ""
 
-#: src/snapshot_diff.tsx:146
+#: src/snapshot_diff.tsx:174
 msgid "Added Packages"
 msgstr ""
 
@@ -66,19 +66,19 @@ msgid "Cockpit Snapshots"
 msgstr ""
 
 #: src/compare_dialog.tsx:38 src/compare_dialog.tsx:72 src/dashboard.tsx:34
-#: src/snapshot_diff.tsx:202
+#: src/snapshot_diff.tsx:230
 msgid "Compare Snapshots"
 msgstr ""
 
-#: src/snapshot_diff.tsx:140
+#: src/snapshot_diff.tsx:168
 msgid "Downgraded Packages"
 msgstr ""
 
-#: src/snapshot_diff.tsx:159
+#: src/snapshot_diff.tsx:187
 msgid "Modified Files"
 msgstr ""
 
-#: src/snapshot_diff.tsx:132
+#: src/snapshot_diff.tsx:160
 msgid "No changes found"
 msgstr ""
 
@@ -86,11 +86,11 @@ msgstr ""
 msgid "Please select a value"
 msgstr ""
 
-#: src/snapshot_diff.tsx:176
+#: src/snapshot_diff.tsx:204
 msgid "Removed Files"
 msgstr ""
 
-#: src/snapshot_diff.tsx:152
+#: src/snapshot_diff.tsx:180
 msgid "Removed Packages"
 msgstr ""
 
@@ -110,12 +110,12 @@ msgstr ""
 msgid "Snapshot Configs"
 msgstr ""
 
-#: src/dashboard.tsx:92 src/snapshot_diff.tsx:192 src/snapshot_diff.tsx:206
+#: src/dashboard.tsx:92 src/snapshot_diff.tsx:220 src/snapshot_diff.tsx:234
 #: src/manifest.json:0 org.opensuse.cockpit_snapshots.metainfo.xml:5
 msgid "Snapshots"
 msgstr ""
 
-#: src/snapshot_diff.tsx:134
+#: src/snapshot_diff.tsx:162
 msgid "Updated Packages"
 msgstr ""
 
