@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-12 12:48+0000\n"
+"POT-Creation-Date: 2026-01-22 14:08+0000\n"
 "PO-Revision-Date: 2026-01-11 23:04+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German <https://l10n.opensuse.org/projects/cockpit/cockpit-"
@@ -31,11 +31,15 @@ msgstr ""
 msgid "A cockpit module for managing snapper snapshots"
 msgstr "Ein Cockpit-Modul zum Verwalten von snapper-Schnappschüssen"
 
-#: src/snapshot_diff.tsx:170
+#: src/dashboard.tsx:32
+msgid "A reboot is needed to complete the rollback"
+msgstr ""
+
+#: src/snapshot_diff.tsx:198
 msgid "Added Files"
 msgstr "Hinzugefügte Dateien"
 
-#: src/snapshot_diff.tsx:146
+#: src/snapshot_diff.tsx:174
 msgid "Added Packages"
 msgstr "Hinzugefügte Pakete"
 
@@ -43,20 +47,20 @@ msgstr "Hinzugefügte Pakete"
 msgid "Cockpit Snapshots"
 msgstr "Cockpit-Schnappschüsse"
 
-#: src/compare_dialog.tsx:38 src/compare_dialog.tsx:72 src/dashboard.tsx:57
-#: src/snapshot_diff.tsx:202
+#: src/compare_dialog.tsx:38 src/compare_dialog.tsx:72 src/dashboard.tsx:62
+#: src/snapshot_diff.tsx:230
 msgid "Compare Snapshots"
 msgstr "Schnappschüsse vergleichen"
 
-#: src/snapshot_diff.tsx:140
+#: src/snapshot_diff.tsx:168
 msgid "Downgraded Packages"
 msgstr "Herabgestufte Pakete"
 
-#: src/snapshot_diff.tsx:159
+#: src/snapshot_diff.tsx:187
 msgid "Modified Files"
 msgstr "Geänderte Dateien"
 
-#: src/snapshot_diff.tsx:132
+#: src/snapshot_diff.tsx:160
 msgid "No changes found"
 msgstr "Keine Änderungen gefunden"
 
@@ -64,39 +68,55 @@ msgstr "Keine Änderungen gefunden"
 msgid "Please select a value"
 msgstr "Bitte wählen Sie einen Wert aus"
 
-#: src/snapshot_diff.tsx:176
+#: src/dashboard.tsx:35
+msgid "Reboot"
+msgstr ""
+
+#: src/snapshot_diff.tsx:204
 msgid "Removed Files"
 msgstr "Entfernte Dateien"
 
-#: src/snapshot_diff.tsx:152
+#: src/snapshot_diff.tsx:180
 msgid "Removed Packages"
 msgstr "Entfernte Pakete"
 
-#: src/dashboard.tsx:83
+#: src/dashboard.tsx:141
 msgid "Rollback to post"
 msgstr "Zurückrollen zum Stand danach"
 
-#: src/dashboard.tsx:82
+#: src/dashboard.tsx:140
 msgid "Rollback to pre"
 msgstr "Zurückrollen zum Stand davor"
 
-#: src/dashboard.tsx:86
+#: src/dashboard.tsx:144
 msgid "Rollback to snapshot"
 msgstr "Zurückrollen zum Schnappschuss"
 
-#: src/dashboard.tsx:31
+#: src/dashboard.tsx:29
+msgid "Rolled back successfully"
+msgstr ""
+
+#: src/dashboard.tsx:89
 msgid "Snapshot Configs"
 msgstr "Schnappschuss-Konfigurationen"
 
-#: src/dashboard.tsx:62 src/snapshot_diff.tsx:192 src/snapshot_diff.tsx:206
+#: src/dashboard.tsx:120 src/snapshot_diff.tsx:220 src/snapshot_diff.tsx:234
 #: src/manifest.json:0 org.opensuse.cockpit_snapshots.metainfo.xml:5
 msgid "Snapshots"
 msgstr "Schnappschüsse"
 
-#: src/snapshot_diff.tsx:134
+#: src/dashboard.tsx:29
+msgid "There was an error"
+msgstr ""
+
+#: src/snapshot_diff.tsx:162
 msgid "Updated Packages"
 msgstr "Aktualisierte Pakete"
 
 #: src/compare_dialog.tsx:54
 msgid "With"
 msgstr "Mit"
+
+#: src/dashboard.tsx:74
+msgid "sndiff is not installed"
+msgstr ""
