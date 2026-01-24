@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-22 14:08+0000\n"
-"PO-Revision-Date: 2026-01-15 05:04+0000\n"
+"PO-Revision-Date: 2026-01-24 16:04+0000\n"
 "Last-Translator: Luna  Jernberg <bittin@opensuse.org>\n"
 "Language-Team: Swedish <https://l10n.opensuse.org/projects/cockpit/cockpit-"
 "snapshots/sv/>\n"
@@ -33,7 +33,7 @@ msgstr "En cockpit modul för att hantera snapper ögonblicksavbilder"
 
 #: src/dashboard.tsx:32
 msgid "A reboot is needed to complete the rollback"
-msgstr ""
+msgstr "En omstart krävs för att slutföra återställning"
 
 #: src/snapshot_diff.tsx:198
 msgid "Added Files"
@@ -70,7 +70,7 @@ msgstr "Vänligen välj ett värde"
 
 #: src/dashboard.tsx:35
 msgid "Reboot"
-msgstr ""
+msgstr "Starta om"
 
 #: src/snapshot_diff.tsx:204
 msgid "Removed Files"
@@ -94,7 +94,7 @@ msgstr "Rulla tillbaka till ögonblicksavbild"
 
 #: src/dashboard.tsx:29
 msgid "Rolled back successfully"
-msgstr ""
+msgstr "Återställd framgångsrikt"
 
 #: src/dashboard.tsx:89
 msgid "Snapshot Configs"
@@ -107,7 +107,7 @@ msgstr "Ögonblicksavbilder"
 
 #: src/dashboard.tsx:29
 msgid "There was an error"
-msgstr ""
+msgstr "Det uppstod ett fel"
 
 #: src/snapshot_diff.tsx:162
 msgid "Updated Packages"
@@ -119,4 +119,4 @@ msgstr "Med"
 
 #: src/dashboard.tsx:74
 msgid "sndiff is not installed"
-msgstr ""
+msgstr "sndiff är inte installerat"
