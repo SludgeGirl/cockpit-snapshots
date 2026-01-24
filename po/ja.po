@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-22 14:08+0000\n"
-"PO-Revision-Date: 2026-01-14 04:57+0000\n"
+"PO-Revision-Date: 2026-01-24 16:04+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://l10n.opensuse.org/projects/cockpit/cockpit-"
 "snapshots/ja/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #: org.opensuse.cockpit_snapshots.metainfo.xml:6
 #: org.opensuse.cockpit_snapshots.metainfo.xml:8
@@ -33,7 +33,7 @@ msgstr "snapper によるスナップショットを管理するための Cockpi
 
 #: src/dashboard.tsx:32
 msgid "A reboot is needed to complete the rollback"
-msgstr ""
+msgstr "巻き戻しを完了するには再起動が必要です"
 
 #: src/snapshot_diff.tsx:198
 msgid "Added Files"
@@ -70,7 +70,7 @@ msgstr "値を選択してください"
 
 #: src/dashboard.tsx:35
 msgid "Reboot"
-msgstr ""
+msgstr "再起動"
 
 #: src/snapshot_diff.tsx:204
 msgid "Removed Files"
@@ -94,7 +94,7 @@ msgstr "スナップショットの状態に戻す"
 
 #: src/dashboard.tsx:29
 msgid "Rolled back successfully"
-msgstr ""
+msgstr "巻き戻しが成功しました"
 
 #: src/dashboard.tsx:89
 msgid "Snapshot Configs"
@@ -107,7 +107,7 @@ msgstr "スナップショット"
 
 #: src/dashboard.tsx:29
 msgid "There was an error"
-msgstr ""
+msgstr "エラーが発生しました"
 
 #: src/snapshot_diff.tsx:162
 msgid "Updated Packages"
@@ -119,4 +119,4 @@ msgstr "と"
 
 #: src/dashboard.tsx:74
 msgid "sndiff is not installed"
-msgstr ""
+msgstr "sndiff がインストールされていません"
