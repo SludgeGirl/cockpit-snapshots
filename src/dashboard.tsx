@@ -10,6 +10,7 @@ import { Config, Snapshot } from './types';
 import { SnapshotDiff } from './snapshot_diff';
 import { useDialogs } from 'dialogs';
 import { CompareDialog } from './compare_dialog';
+import { SortByDirection } from '@patternfly/react-table';
 const _ = cockpit.gettext;
 
 const RollbackDialog = ({ type, message }: { type: "success" | "error", message?: string }) => {
@@ -123,13 +124,24 @@ export const DashboardPage = ({ hasSndiff, snapperConfigs, snapshots, snapshotsP
                         <ListingTable
                             onExpand={(rows) => setExpandedRows(rows)}
                             columns={[
-                                { title: "ID" },
+                                { title: "ID", sortable: true },
                                 { title: "Type" },
-                                { title: "Date" },
+                                { title: "Date", sortable: true, },
                                 { title: "Description" },
                                 { title: "User Data" },
                                 { title: "Actions" },
                             ]}
+                            sortMethod={(rows: ListingTableRowProps[], dir: SortByDirection, index: number) => {
+                                rows.sort((a, b) => {
+                                    if (a[index] < b[index]) return 1;
+                                    if (a[index] > b[index]) return 1;
+                                    return 0;
+                                });
+                                if (dir === "desc")  {
+                                    return rows.reverse();
+                                }
+                                return rows;
+                            }}
                             rows={snapshotsPaired.reduce((reduced_snapshots: ListingTableRowProps[], pairs: [Snapshot, Snapshot] | [Snapshot]) => {
                                 const actions = (
                                     <KebabDropdown
