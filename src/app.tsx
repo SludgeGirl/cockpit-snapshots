@@ -32,8 +32,8 @@ superuser.reload_page_on_change();
 export const Application = () => {
     const [hasSndiff, setHasSndiff] = useState<boolean>(false);
     const [snapperConfigs, setSnapperConfigs] = useState<Config[]>([]);
-    const [snapshots, setSnapshots] = useState<Snapshot[]>([]);
-    const [snapshotsPaired, setSnapshotsPaired] = useState<([Snapshot, Snapshot] | [Snapshot])[]>([]);
+    const [snapshots, setSnapshots] = useState<{[key: string]: Snapshot[]}>({});
+    const [snapshotsPaired, setSnapshotsPaired] = useState<{[key: string]: ([Snapshot, Snapshot] | [Snapshot])[]}>({});
     const [cockpitLocation, setCockpitLocation] = useState<Location>(cockpit.location);
 
     const updateConfigs = useCallback(() => {
@@ -50,11 +50,20 @@ export const Application = () => {
     }, [setSnapperConfigs]);
 
     const updateSnapshots = useCallback(() => {
-        cockpit.spawn(["snapper", "--json", "--no-dbus", "list", "--disable-used-space"], { err: "message", superuser: "require" }).then((output) => {
-            const jsonout = JSON.parse(output);
-            setSnapshots(jsonout.root);
+        const newSnapshots: {[key: string]: Snapshot[]} = {};
+        snapperConfigs.forEach((config) => {
+            console.log(config);
+            newSnapshots[config.subvolume] = [];
+            cockpit.spawn(["snapper", "-c", config.config, "--json", "--no-dbus", "list", "--disable-used-space"], { err: "message", superuser: "require" }).then((output) => {
+                const jsonout: Snapshot[] = JSON.parse(output).root;
+                if (jsonout) {
+                    newSnapshots[config.subvolume].push(...jsonout);
+                }
+            });
         });
-    }, [snapperConfigs]);
+        console.log("setting snapshots", newSnapshots)
+        setSnapshots(newSnapshots);
+    }, [snapperConfigs, setSnapshots]);
 
     useEffect(() => {
         const snapperClient = cockpit.dbus("org.opensuse.Snapper");
@@ -79,18 +88,33 @@ export const Application = () => {
     }, [updateSnapshots, snapperConfigs]);
 
     useMemo(() => {
-        const paired_snapshots: ([Snapshot, Snapshot] | [Snapshot])[] = [];
-        snapshots.map(snapshot => {
-            if (snapshot["pre-number"] && paired_snapshots[snapshot["pre-number"]]) {
-                paired_snapshots[snapshot["pre-number"]].push(snapshot);
-            } else {
-                paired_snapshots[(snapshot["pre-number"] ? snapshot["pre-number"] : snapshot.number)] = [snapshot];
+        console.log("memo's snapshots", snapshots);
+        const paired_snapshots: {[key: string]: ([Snapshot, Snapshot] | [Snapshot])[]} = {};
+        snapperConfigs.forEach((config) => {
+            console.log("memo's snapshots loop", config.subvolume, snapshots, snapshots[config.subvolume]);
+            paired_snapshots[config.subvolume] = [];
+            console.log("Pairing for config " + config.subvolume, snapshots[config.subvolume]);
+            let snapshot;
+            console.log("meowing?", (snapshots[config.subvolume] || []), (snapshots[config.subvolume] || []).length)
+            if ((snapshots[config.subvolume] || []).length > 0) {
+                console.log("Running for")
+                for (snapshot of snapshots[config.subvolume]) {
+                    console.log("Attempting to pair for snapshot", snapshot);
+                    if (snapshot["pre-number"] && paired_snapshots[config.subvolume][snapshot["pre-number"]]) {
+                        paired_snapshots[config.subvolume][snapshot["pre-number"]].push(snapshot);
+                    } else {
+                        paired_snapshots[config.subvolume][(snapshot["pre-number"] ? snapshot["pre-number"] : snapshot.number)] = [snapshot];
+                    }
+                    console.log("paired", paired_snapshots);
+                }
             }
-            return snapshot;
         });
 
+        console.log("Finished pairing", paired_snapshots)
         setSnapshotsPaired(paired_snapshots);
-    }, [snapshots, setSnapshotsPaired]);
+    }, [snapshots, setSnapshotsPaired, snapperConfigs]);
+
+    useEffect(() => console.log("paired changed", snapshotsPaired), [snapshotsPaired]);
 
     const onNavigate = useCallback(() => {
         setCockpitLocation(cockpit.location);
@@ -104,14 +128,18 @@ export const Application = () => {
 
     return (
         <Page sidebar={<PageSidebar isSidebarOpen={false} />}>
-            {cockpitLocation.options.snapshot1 && cockpitLocation.options.snapshot2
-                ? (
-                    <SnapshotDiffPage
-                        snapshot1={parseInt(String(cockpitLocation.options.snapshot1))}
-                        snapshot2={parseInt(String(cockpitLocation.options.snapshot2))}
-                        snapshots={snapshots}
-                    />
-                )
+            {cockpitLocation.options.snapshot1 && cockpitLocation.options.snapshot2 && cockpitLocation.options.subvolume
+                ? snapperConfigs.map((config) => {
+                    return (
+                        <SnapshotDiffPage
+                            key={"snapshot-diff-" + config.subvolume}
+                            snapshot1={parseInt(String(cockpitLocation.options.snapshot1))}
+                            snapshot2={parseInt(String(cockpitLocation.options.snapshot2))}
+                            snapshots={snapshots}
+                            config={config}
+                        />
+                    );
+                })
                 : <DashboardPage hasSndiff={hasSndiff} snapperConfigs={snapperConfigs} snapshots={snapshots} snapshotsPaired={snapshotsPaired} />}
         </Page>
     );

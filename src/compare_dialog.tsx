@@ -2,12 +2,12 @@ import cockpit from "cockpit";
 import React, { useCallback, useEffect, useState } from "react";
 import { Button, Flex, FlexItem, Modal, ModalBody, ModalHeader, Stack, StackItem } from "@patternfly/react-core";
 import { useDialogs } from "dialogs";
-import { Snapshot } from "./types";
+import { Config, Snapshot } from "./types";
 import { SimpleSelect } from "cockpit-components-simple-select";
 
 const _ = cockpit.gettext;
 
-export const CompareDialog = ({ snapshots }: { snapshots: Snapshot[] }) => {
+export const CompareDialog = ({ snapshots, config }: { snapshots: Snapshot[], config: Config }) => {
     const Dialogs = useDialogs();
 
     const [firstSelect, setFirstSelect] = useState<null | number>(null);
@@ -17,7 +17,7 @@ export const CompareDialog = ({ snapshots }: { snapshots: Snapshot[] }) => {
             return;
         }
 
-        cockpit.location.go(cockpit.location.path, { snapshot1: firstSelect.toString(), snapshot2: secondSelect.toString() });
+        cockpit.location.go(cockpit.location.path, { snapshot1: firstSelect.toString(), snapshot2: secondSelect.toString(), subvolume: config.subvolume });
         Dialogs.close();
     }, [Dialogs, firstSelect, secondSelect]);
 

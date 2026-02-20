@@ -3,7 +3,7 @@ import React, { useState, useEffect, CSSProperties } from "react";
 import { EmptyStatePanel } from 'cockpit-components-empty-state';
 import { useDialogs } from 'dialogs.jsx';
 import { Accordion, AccordionContent, AccordionItem, AccordionToggle, Breadcrumb, BreadcrumbItem, Button, Card, CardBody, CardHeader, CardTitle, ClipboardCopyButton, CodeBlock, CodeBlockAction, CodeBlockCode, Modal, ModalBody, ModalHeader, PageBreadcrumb, PageSection } from "@patternfly/react-core";
-import { Snapshot, SndiffDiff, SndiffModifiedFiles, SnDiffModifiedPackages } from "./types";
+import { Config, Snapshot, SndiffDiff, SndiffModifiedFiles, SnDiffModifiedPackages } from "./types";
 import { CompareDialog } from "./compare_dialog";
 
 const _ = cockpit.gettext;
@@ -210,7 +210,7 @@ const SnapshotDiff = ({ pre_snapshot, post_snapshot, load = false }: { pre_snaps
     );
 };
 
-const SnapshotDiffPage = ({ snapshot1, snapshot2, snapshots }: { snapshot1: number, snapshot2: number, snapshots: Snapshot[] }) => {
+const SnapshotDiffPage = ({ snapshot1, snapshot2, snapshots, config }: { snapshot1: number, snapshot2: number, snapshots: { [key: string]: Snapshot[] }, config: Config }) => {
     const Dialogs = useDialogs();
 
     return (
@@ -227,7 +227,7 @@ const SnapshotDiffPage = ({ snapshot1, snapshot2, snapshots }: { snapshot1: numb
                 <Card>
                     <CardHeader actions={{
                         actions: [
-                            <Button key="compare-snapshots" onClick={() => Dialogs.show(<CompareDialog snapshots={snapshots} />)}>{_("Compare Snapshots")}</Button>
+                            <Button key="compare-snapshots" onClick={() => Dialogs.show(<CompareDialog snapshots={snapshots[config.subvolume]} config={config} />)}>{_("Compare Snapshots")}</Button>
                         ]
                     }}
                     >
